@@ -1,3 +1,15 @@
+
+function removeActiveClass(){
+    const activeBtn = document.getElementsByClassName('active')
+
+    for(let btn of activeBtn){
+        btn.classList.remove('active');
+    }
+}
+
+
+
+
 const loadCategories = () => {
 
     // fetch Data
@@ -14,7 +26,7 @@ const displayCategories = (categories) => {
 
         const createDiv = document.createElement('div');
         createDiv.innerHTML = `
-         <button onclick="loadCategoryVideo(${cat.category_id})" class="btn btn-sm  hover:bg-red-500 hover:text-white">${cat.category}</button>
+         <button id='btn-${cat.category_id}' onclick="loadCategoryVideo(${cat.category_id})" class="btn btn-sm  hover:bg-red-500 hover:text-white">${cat.category}</button>
         `
         createCon.appendChild(createDiv)
     }
@@ -25,7 +37,12 @@ const displayCategories = (categories) => {
 const loadVideos = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
-        .then(data => displayVideos(data.videos))
+        .then(data =>{
+            removeActiveClass()
+            displayVideos(data.videos)
+            const allBtn = document.getElementById('btn-all')
+            allBtn.classList.add('active')
+        })
 }
 
 
@@ -33,7 +50,23 @@ const displayVideos = (video) => {
 
     const getVideoCon = document.getElementById('video-con');
 
-    getVideoCon.innerHTML="";
+    getVideoCon.innerHTML = "";
+
+
+
+    if (video.length === 0) {
+        getVideoCon.innerHTML = `
+             <div class="col-span-4 flex flex-col justify-center items-center py-20">
+        <img class="w-28" src="./tube-resource/Icon.png" alt="">
+
+        <h1 class="text-center text-2xl font-bold">No Content Availabel Right Now<br>"Sorry For The Inconvinience!"</h1>
+     </div>
+
+            `
+
+        return;
+    }
+
 
     video.forEach((video) => {
         console.log(video)
@@ -79,12 +112,18 @@ const displayVideos = (video) => {
 // load categories video
 
 const loadCategoryVideo = (id) => {
-   const url = `
+    const url = `
         https://openapi.programming-hero.com/api/phero-tube/category/${id}
    `
-   fetch(url)
-   .then(res => res.json() )
-   .then(data => displayVideos(data.category))
+    fetch(url)
+        .then(res => res.json())
+        .then(data =>{
+            displayVideos(data.category)
+
+            removeActiveClass()
+            const clickedbtn = document.getElementById(`btn-${id}`);
+            clickedbtn.classList.add("active")
+        })
 }
 
 
