@@ -7,7 +7,37 @@ function removeActiveClass(){
     }
 }
 
+// show video details
 
+const loadVideoDetails = (videoId) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+  fetch(url)
+  .then(res => res.json())
+  .then(data => displayVideosDetails(data.video))
+}
+
+const displayVideosDetails = (detailsVideo) => {
+    document.getElementById('detail_modal').showModal()
+
+    const detailConVid = document.getElementById('details-vid-con');
+    detailConVid.innerHTML = `
+    
+    <div class="card bg-base-100 image-full shadow-sm">
+  <figure>
+    <img
+      src="${detailsVideo.thumbnail}"
+      alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">Title</h2>
+    <h2 class"font-bold">${detailsVideo.title}</h2>
+    <div class="card-actions justify-end">
+    </div>
+  </div>
+</div>
+    
+    `
+}
 
 
 const loadCategories = () => {
@@ -34,8 +64,8 @@ const displayCategories = (categories) => {
 
 // load Video
 
-const loadVideos = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (inputSearch  = "") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${inputSearch}`)
         .then(res => res.json())
         .then(data =>{
             removeActiveClass()
@@ -90,9 +120,9 @@ const displayVideos = (video) => {
                 
                 <div class="">
                 <h2 class="card-title text-[15px]">${video.title}</h2>
-                <!-- <a target="_blank" href="https://icons8.com/icon/98A4yZTt9abw/verified-badge">Verified Badge</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
-                <p class="text-gray-400 text-sm flex gap-1">${video.authors[0].profile_name}  <img class="w-5" src="./tube-resource/icons8-verified-badge-48.png" alt=""></p>
                 
+                <p class="text-gray-400 text-sm flex gap-1">${video.authors[0].profile_name} ${video.authors[0].verified === true ? `<img class="w-5" src="./tube-resource/icons8-verified-badge-48.png" alt="">
+                ` : ``}  </P>
                 <p class="text-gray-400 text-sm">${video.others.views}</p>
                 
                 
@@ -100,7 +130,7 @@ const displayVideos = (video) => {
                 </div>
                 
             </div>
-            
+             <button onclick=loadVideoDetails("${video.video_id}") class="btn btn-block">Show Details</button>
         </div>
         
         `
@@ -125,6 +155,13 @@ const loadCategoryVideo = (id) => {
             clickedbtn.classList.add("active")
         })
 }
+
+
+document.getElementById('search-input')
+.addEventListener('keyup', (inputValue)=> {
+  const input = (inputValue.target.value);
+  loadVideos(input)
+})
 
 
 

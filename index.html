@@ -19,12 +19,12 @@
         }
       </style>
 
-      <style>
+    <style>
         .active {
             background-color: red;
             color: white;
         }
-      </style>
+    </style>
 </head>
 
 <body>
@@ -34,19 +34,34 @@
                 <img class="w-[140px]" src="./tube-resource/Logo.png" alt="">
             </div>
 
-            <div class="sort">
-                <button class="btn">Sort by view</button>
+            <div class="search">
+                <label class="input">
+                    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <g
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                      </g>
+                    </svg>
+                    <input id="search-input" class="w-[70px] lg:w-52" type="search" required placeholder="Search" />
+                  </label>
             </div>
 
             <div class="blog">
-                <button class="btn text-white bg-[#FF1F3D]">Blog</button>
+                <button class="btn text-white bg-[#FF1F3D]">Sort by view</button>
             </div>
         </nav>
     </header>
     <section>
         <nav id="category-container" class="flex justify-center gap-4 my-6">
             <div>
-                <button id="btn-all" onclick="loadVideos()" class="btn btn-sm  hover:bg-red-500 hover:text-white">All</button>
+                <button id="btn-all" onclick="loadVideos()"
+                    class="btn btn-sm  hover:bg-red-500 hover:text-white">All</button>
             </div>
 
         </nav>
@@ -56,13 +71,32 @@
 
     <section id="video-con" class="w-11/12 mx-auto grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-5">
 
-     <div class="col-span-4 flex flex-col justify-center items-center py-20">
-        <img class="w-28" src="./tube-resource/Icon.png" alt="">
+        <div class="col-span-4 flex flex-col justify-center items-center py-20">
+            <img class="w-28" src="./tube-resource/Icon.png" alt="">
 
-        <h1 class="text-center text-2xl font-bold">To Watch Content Click "All"<br> or other Categories button</h1>
-     </div>
+            <h1 class="text-center text-2xl font-bold">To Watch Content Click "All"<br> or other Categories button</h1>
+        </div>
+
+       
 
     </section>
+
+     <!-- Open the modal using ID.showModal() method -->
+        <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
+        <dialog id="detail_modal" class="modal">
+            <div class="modal-box">
+                <div id="details-vid-con">
+
+                </div>
+                
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
 
 
     <script src="./JS/main.js"></script>
